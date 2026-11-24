@@ -5,8 +5,9 @@ quadratic placement.
 
 ## Website
 
-The public site is published from [`docs/`](docs/) and is intended for GitHub
-Pages.
+**Live site:** <https://muranfei.github.io/quadratic-placement-lesson/>
+
+The public site is published from [`docs/`](docs/) with GitHub Pages.
 
 ## Lesson scope
 
