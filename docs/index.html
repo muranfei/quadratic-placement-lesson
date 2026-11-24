@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="A bilingual lesson on quadratic placement, fixed pads, HPWL, damped neighbor averaging, and density."
+    >
+    <title>Quadratic Placement | 二次布局</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#lesson">
+      <span class="en">Skip to lesson</span>
+      <span class="zh">跳到课程</span>
+    </a>
+
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="#top" aria-label="EDA dark tech lesson">
+          <span class="brand-chip">EDA</span>
+          <span class="brand-copy">
+            <strong>PLACEMENT / LAB 05</strong>
+            <small>QUADRATIC PLACEMENT</small>
+          </span>
+        </a>
+
+        <nav class="top-nav" aria-label="Page sections">
+          <a href="#lesson"><span class="en">Lesson</span><span class="zh">课程</span></a>
+          <a href="#concepts"><span class="en">Concepts</span><span class="zh">概念</span></a>
+          <a href="#practice"><span class="en">Practice</span><span class="zh">练习</span></a>
+          <a href="#downloads"><span class="en">Downloads</span><span class="zh">下载</span></a>
+        </nav>
+
+        <div class="language-switch" role="group" aria-label="Language">
+          <button class="lang-button is-active" type="button" data-set-lang="en">EN</button>
+          <button class="lang-button" type="button" data-set-lang="zh">中文</button>
+        </div>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero shell">
+        <div class="hero-copy">
+          <div class="eyebrow">
+            <span class="eyebrow-dot"></span>
+            <span class="en">PLACEMENT FOR EDA · GUIDED LAB</span>
+            <span class="zh">EDA 布局 · 引导实验</span>
+          </div>
+          <h1>
+            <span class="en">QUADRATIC<br><mark>PLACEMENT</mark></span>
+            <span class="zh">二次布局<br><mark>固定与靠近</mark></span>
+          </h1>
+          <p class="hero-lead">
+            <span class="en">
+              Place free cells closer to their neighbors while two fixed pads hold the layout in place.
+              Learn HPWL, the spring intuition, six damped iterations, and why low wirelength is not the whole answer.
+            </span>
+            <span class="zh">
+              让自由单元靠近邻居，同时保持两个焊盘固定。学习 HPWL、弹簧直觉、
+              六轮阻尼迭代，并理解为什么低线长并不等于最终可用布局。
+            </span>
+          </p>
+          <div class="hero-actions">
+            <a class="primary-button" href="#lesson">
+              <span class="en">Watch the lesson</span>
+              <span class="zh">开始观看</span>
+              <span aria-hidden="true">↘</span>
+            </a>
+            <a class="secondary-button" href="#practice">
+              <span class="en">Try 6 checks</span>
+              <span class="zh">完成 6 道练习</span>
+            </a>
+          </div>
+          <ul class="hero-facts" aria-label="Lesson facts">
+            <li><strong>5:07</strong><span class="en">video</span><span class="zh">视频</span></li>
+            <li><strong>52 → 48</strong><span class="en">HPWL</span><span class="zh">线长变化</span></li>
+            <li><strong>EN / 中文</strong><span class="en">subtitles</span><span class="zh">双语字幕</span></li>
+          </ul>
+        </div>
+
+        <div class="hero-board" aria-hidden="true">
+          <svg viewBox="0 0 680 470" role="presentation">
+            <defs>
+              <radialGradient id="nodeCyan">
+                <stop offset="0" stop-color="#dff8ff"></stop>
+                <stop offset="0.28" stop-color="#79d3f7"></stop>
+                <stop offset="1" stop-color="#35b5f0" stop-opacity="0"></stop>
+              </radialGradient>
+              <radialGradient id="nodeGold">
+                <stop offset="0" stop-color="#fff1c8"></stop>
+                <stop offset="0.3" stop-color="#f1b85a"></stop>
+                <stop offset="1" stop-color="#c88a3e" stop-opacity="0"></stop>
+              </radialGradient>
+              <filter id="softGlow">
+                <feGaussianBlur stdDeviation="5" result="blur"></feGaussianBlur>
+                <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+              </filter>
+            </defs>
+            <rect x="60" y="35" width="560" height="350" rx="20" fill="#091619" stroke="#35b5f0" stroke-opacity=".38"></rect>
+            <g stroke="#79d3f7" stroke-opacity=".08">
+              <path d="M60 78 H620 M60 122 H620 M60 166 H620 M60 210 H620 M60 254 H620 M60 298 H620 M60 342 H620"></path>
+              <path d="M104 35 V385 M148 35 V385 M192 35 V385 M236 35 V385 M280 35 V385 M324 35 V385 M368 35 V385 M412 35 V385 M456 35 V385 M500 35 V385 M544 35 V385 M588 35 V385"></path>
+            </g>
+            <rect x="100" y="75" width="480" height="270" fill="none" stroke="#79d3f7" stroke-opacity=".65" stroke-dasharray="10 8"></rect>
+            <g stroke="#55a160" stroke-width="2.4" filter="url(#softGlow)">
+              <path d="M100 345 H580 V75 H100 Z"></path>
+              <path d="M100 345 L580 75 M100 75 L580 345" stroke-opacity=".35"></path>
+            </g>
+            <path d="M280 305 L400 198" stroke="#f1b85a" stroke-width="3" stroke-dasharray="5 7"></path>
+            <g fill="url(#nodeGold)" filter="url(#softGlow)">
+              <circle cx="100" cy="345" r="29"></circle>
+              <circle cx="580" cy="75" r="29"></circle>
+            </g>
+            <g fill="url(#nodeCyan)" filter="url(#softGlow)">
+              <circle cx="100" cy="75" r="27"></circle>
+              <circle cx="580" cy="345" r="27"></circle>
+              <circle cx="280" cy="305" r="27"></circle>
+              <circle cx="400" cy="198" r="27"></circle>
+            </g>
+            <g font-family="Segoe UI, sans-serif" font-size="18" font-weight="700" text-anchor="middle" fill="#f2f0ea">
+              <text x="100" y="351">A</text>
+              <text x="580" y="81">D</text>
+              <text x="100" y="81">C</text>
+              <text x="580" y="351">B</text>
+              <text x="280" y="311">F</text>
+              <text x="400" y="204">E</text>
+            </g>
+            <rect x="435" y="390" width="205" height="62" rx="14" fill="#0d1d21" stroke="#35b5f0" stroke-opacity=".35"></rect>
+            <text x="458" y="417" fill="#91a5a8" font-family="Segoe UI, sans-serif" font-size="13" font-weight="700">STARTER HPWL</text>
+            <text x="458" y="443" fill="#f2f0ea" font-family="Arial Black, sans-serif" font-size="28">52 → 48</text>
+            <rect x="60" y="390" width="176" height="62" rx="14" fill="#0d1d21" stroke="#f1b85a" stroke-opacity=".35"></rect>
+            <text x="148" y="416" fill="#91a5a8" font-family="Segoe UI, sans-serif" font-size="13" font-weight="700" text-anchor="middle">FIXED PADS</text>
+            <text x="148" y="443" fill="#f1b85a" font-family="Segoe UI, sans-serif" font-size="24" font-weight="800" text-anchor="middle">A · D</text>
+          </svg>
+        </div>
+      </section>
+
+      <section class="lesson-section shell" id="lesson">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">01 / <span class="en">WATCH</span><span class="zh">观看</span></span>
+            <h2><span class="en">FROM TABLE SEATS TO CELLS</span><span class="zh">从餐桌座位到芯片单元</span></h2>
+          </div>
+          <p>
+            <span class="en">English narration with burned-in English and Chinese subtitles.</span>
+            <span class="zh">英语旁白，画面内嵌英汉双语字幕。</span>
+          </p>
+        </div>
+
+        <div class="lesson-layout">
+          <article class="player-card">
+            <div class="player-topbar">
+              <span class="video-status"><i></i><span class="en">ENGLISH NARRATION</span><span class="zh">英语旁白</span></span>
+              <span class="video-badge"><span class="en">EN + 中文 subtitles</span><span class="zh">英汉双语字幕</span></span>
+            </div>
+            <div class="video-stage">
+              <video id="lesson-video" controls playsinline preload="metadata" poster="assets/poster.png">
+                <source src="videos/quadratic_placement_full_en_v1.mp4" type="video/mp4">
+              </video>
+            </div>
+            <div class="player-toolbar">
+              <div class="player-meta">
+                <span class="quality-pill">1080P · 30 FPS</span>
+                <span class="time-readout" id="time-readout">0:00 / 5:07</span>
+              </div>
+              <div class="speed-control">
+                <span><span class="en">Playback speed</span><span class="zh">播放速度</span></span>
+                <button id="speed-button" type="button" aria-label="Change playback speed">
+                  <span id="speed-value">1×</span><span aria-hidden="true">›</span>
+                </button>
+              </div>
+            </div>
+            <div class="download-row">
+              <a href="videos/quadratic_placement_full_en_v1.mp4" download>
+                <span aria-hidden="true">↓</span>
+                <span class="en">Download MP4</span><span class="zh">下载 MP4</span>
+              </a>
+              <a href="downloads/quadratic_placement_full_en_v1.srt" download>
+                <span aria-hidden="true">↓</span>
+                <span class="en">Download subtitles</span><span class="zh">下载双语字幕</span>
+              </a>
+            </div>
+          </article>
+
+          <aside class="chapter-card">
+            <div class="chapter-head">
+              <span class="chapter-number">13</span>
+              <div>
+                <h3><span class="en">Lesson map</span><span class="zh">课程导航</span></h3>
+                <p><span class="en">Jump to any scene</span><span class="zh">跳转到任意章节</span></p>
+              </div>
+            </div>
+            <div class="chapter-list">
+              <button type="button" data-seek="0.5"><span>00:00</span><span class="en">Fixed seats, movable friends</span><span class="zh">固定座位与可移动的朋友</span></button>
+              <button type="button" data-seek="22"><span>00:22</span><span class="en">From people to cells</span><span class="zh">从人到单元</span></button>
+              <button type="button" data-seek="44.68"><span>00:44</span><span class="en">HPWL bounding rectangle</span><span class="zh">HPWL 包围矩形</span></button>
+              <button type="button" data-seek="68.08"><span>01:08</span><span class="en">Why the starter is 52</span><span class="zh">初始值为什么是 52</span></button>
+              <button type="button" data-seek="92.08"><span>01:32</span><span class="en">Why quadratic?</span><span class="zh">为什么叫二次布局</span></button>
+              <button type="button" data-seek="115.36"><span>01:55</span><span class="en">Damped neighbor averaging</span><span class="zh">阻尼邻居平均</span></button>
+              <button type="button" data-seek="140.32"><span>02:20</span><span class="en">Six iterations</span><span class="zh">六轮迭代</span></button>
+              <button type="button" data-seek="165.28"><span>02:45</span><span class="en">Why 52 becomes 48</span><span class="zh">为什么 52 变为 48</span></button>
+              <button type="button" data-seek="190.55"><span>03:10</span><span class="en">Constraint comparison</span><span class="zh">约束比较</span></button>
+              <button type="button" data-seek="214.43"><span>03:34</span><span class="en">Density risk</span><span class="zh">密度风险</span></button>
+              <button type="button" data-seek="240.25"><span>04:00</span><span class="en">Algorithm and checklist</span><span class="zh">算法与检查清单</span></button>
+              <button type="button" data-seek="263.38"><span>04:23</span><span class="en">Browser lab walkthrough</span><span class="zh">浏览器实验步骤</span></button>
+              <button type="button" data-seek="283.78"><span>04:43</span><span class="en">Five-question self-check</span><span class="zh">五问自测</span></button>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="downloads-section shell" id="downloads">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">02 / <span class="en">MATERIALS</span><span class="zh">资料</span></span>
+            <h2><span class="en">TAKE THE LESSON WITH YOU</span><span class="zh">下载课程资料</span></h2>
+          </div>
+          <p><span class="en">All downloadable files are published with this lesson. The original course is linked in the footer.</span><span class="zh">本页提供课程自制资源下载；原始课程链接见页脚。</span></p>
+        </div>
+        <div class="download-grid">
+          <a class="download-card" href="videos/quadratic_placement_full_en_v1.mp4" download>
+            <span class="download-mark">MP4</span>
+            <strong><span class="en">Full lesson video</span><span class="zh">完整课程视频</span></strong>
+            <p><span class="en">5:07 · 1080p · English narration</span><span class="zh">5:07 · 1080p · 英语旁白</span></p>
+          </a>
+          <a class="download-card" href="downloads/quadratic_placement_full_en_v1.srt" download>
+            <span class="download-mark">SRT</span>
+            <strong><span class="en">Bilingual subtitles</span><span class="zh">英汉双语字幕</span></strong>
+            <p><span class="en">39 cues · English + Chinese</span><span class="zh">39 条字幕 · 英文 + 中文</span></p>
+          </a>
+          <a class="download-card" href="assets/poster.png" download>
+            <span class="download-mark">PNG</span>
+            <strong><span class="en">Lesson poster</span><span class="zh">课程封面图</span></strong>
+            <p><span class="en">1920×1080 presentation still</span><span class="zh">1920×1080 课程画面</span></p>
+          </a>
+          <a class="download-card" href="assets/contact-sheet.png" download>
+            <span class="download-mark">PNG</span>
+            <strong><span class="en">Key-frame contact sheet</span><span class="zh">关键帧总览</span></strong>
+            <p><span class="en">Full lesson visual overview</span><span class="zh">完整课程画面总览</span></p>
+          </a>
+          <a class="download-card" href="downloads/quadratic_placement_lesson_notes.md" download>
+            <span class="download-mark">NOTE</span>
+            <strong><span class="en">Lesson notes</span><span class="zh">学习笔记</span></strong>
+            <p><span class="en">Formulas, numbers, common traps</span><span class="zh">公式、数值与常见误区</span></p>
+          </a>
+          <a class="download-card" href="downloads/lesson-timeline.json" download>
+            <span class="download-mark">JSON</span>
+            <strong><span class="en">Exact chapter timeline</span><span class="zh">精确章节时间轴</span></strong>
+            <p><span class="en">Machine-readable scene data</span><span class="zh">可机器读取的场景数据</span></p>
+          </a>
+        </div>
+      </section>
+
+      <section class="concepts-section shell" id="concepts">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">03 / <span class="en">CORE IDEAS</span><span class="zh">核心概念</span></span>
+            <h2><span class="en">SIX IDEAS THAT DRIVE THE EXPERIMENT</span><span class="zh">理解实验的六个关键概念</span></h2>
+          </div>
+          <p><span class="en">Follow the same sequence as the lesson.</span><span class="zh">按课程顺序逐步建立理解。</span></p>
+        </div>
+        <div class="concept-grid">
+          <article class="concept-card cyan-card">
+            <span class="concept-number">01</span>
+            <h3><span class="en">PLACEMENT</span><span class="zh">布局</span></h3>
+            <p><span class="en">Choose coordinates for movable cells while fixed pads remain where they are.</span><span class="zh">为可移动单元选择坐标，同时保持固定焊盘不动。</span></p>
+            <div class="formula">A(0,0) · D(8,8) · fixed</div>
+          </article>
+          <article class="concept-card cyan-card">
+            <span class="concept-number">02</span>
+            <h3><span class="en">HPWL</span><span class="zh">半周长线长</span></h3>
+            <p><span class="en">Wrap a net in its smallest axis-aligned rectangle, then add width and height.</span><span class="zh">用最小轴对齐矩形包围网络，再计算宽加高。</span></p>
+            <div class="formula">HPWL = W + H</div>
+          </article>
+          <article class="concept-card green-card">
+            <span class="concept-number">03</span>
+            <h3><span class="en">SPRING ENERGY</span><span class="zh">弹簧能量</span></h3>
+            <p><span class="en">Quadratic objectives use squared connection length, producing a smooth, linear derivative.</span><span class="zh">二次目标使用连接长度的平方，使目标平滑且导数为线性。</span></p>
+            <div class="formula">E ∝ d²</div>
+          </article>
+          <article class="concept-card cyan-card">
+            <span class="concept-number">04</span>
+            <h3><span class="en">NEIGHBOR AVERAGE</span><span class="zh">邻居平均</span></h3>
+            <p><span class="en">The teaching implementation moves each free cell toward its neighbors' average.</span><span class="zh">教学实现让每个自由单元向邻居平均位置移动。</span></p>
+            <div class="formula">new = 0.55 × avg + 0.45 × old</div>
+          </article>
+          <article class="concept-card gold-card">
+            <span class="concept-number">05</span>
+            <h3><span class="en">CONSTRAINED RESULT</span><span class="zh">受约束结果</span></h3>
+            <p><span class="en">A and D keep most bounding boxes wide, so the starter improves only from 52 to about 48.</span><span class="zh">A、D 使多数包围盒保持较大跨度，因此初始值仅从 52 降至约 48。</span></p>
+            <div class="formula">52 → 48 · same pads</div>
+          </article>
+          <article class="concept-card coral-card">
+            <span class="concept-number">06</span>
+            <h3><span class="en">DENSITY GATE</span><span class="zh">密度门槛</span></h3>
+            <p><span class="en">A low HPWL can still hide overlap or density overflow. Check legality and density.</span><span class="zh">低 HPWL 仍可能掩盖重叠或密度溢出，必须继续检查合法性与密度。</span></p>
+            <div class="formula">HPWL ≠ sign-off</div>
+          </article>
+        </div>
+      </section>
+
+      <section class="practice-section" id="practice">
+        <div class="shell">
+          <div class="section-heading">
+            <div>
+              <span class="section-kicker">04 / <span class="en">PRACTICE</span><span class="zh">练习</span></span>
+              <h2><span class="en">TEST THE NUMBERS AND THE REASONING</span><span class="zh">检查计算与判断</span></h2>
+            </div>
+            <p><span class="en">Use the HPWL calculator, then answer six questions with immediate explanations.</span><span class="zh">先使用 HPWL 计算器，再完成六道带即时解析的练习题。</span></p>
+          </div>
+
+          <div class="hpwl-lab">
+            <div class="lab-copy">
+              <span class="lab-kicker">MINI LAB / <span class="en">HPWL CALCULATOR</span><span class="zh">HPWL 计算器</span></span>
+              <h3><span class="en">Change the bounding box</span><span class="zh">改变包围矩形</span></h3>
+              <p><span class="en">Adjust width and height to see how one net's cost changes.</span><span class="zh">调整宽和高，观察单个网络成本如何变化。</span></p>
+            </div>
+            <div class="lab-controls">
+              <label>
+                <span><span class="en">Width</span><span class="zh">宽</span> <output id="width-value">8</output></span>
+                <input id="hpwl-width" type="range" min="0" max="16" value="8">
+              </label>
+              <label>
+                <span><span class="en">Height</span><span class="zh">高</span> <output id="height-value">8</output></span>
+                <input id="hpwl-height" type="range" min="0" max="16" value="8">
+              </label>
+            </div>
+            <div class="lab-result" aria-live="polite">
+              <span class="en">One-net HPWL</span><span class="zh">单网络 HPWL</span>
+              <strong id="hpwl-result">16</strong>
+              <code id="hpwl-equation">8 + 8 = 16</code>
+            </div>
+          </div>
+
+          <div class="practice-layout">
+            <div id="quiz-list" class="quiz-list"></div>
+            <aside class="score-card">
+              <span class="score-kicker"><span class="en">YOUR SCORE</span><span class="zh">当前得分</span></span>
+              <div class="score-ring"><strong id="score-value">0</strong><span>/ 6</span></div>
+              <div class="score-track"><span id="score-progress"></span></div>
+              <p id="score-message"><span class="en">Make a choice, then check the reasoning.</span><span class="zh">先选择，再检查推理。</span></p>
+              <button id="reset-quiz" class="reset-button" type="button"><span class="en">Reset all answers</span><span class="zh">重新作答</span></button>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section class="recap-section shell">
+        <div class="recap-card">
+          <span class="recap-stamp">TAKEAWAY</span>
+          <h2><span class="en">LESS WIRING.<br>SAME CONSTRAINTS.</span><span class="zh">降低线长。<br>保留约束。</span></h2>
+          <p><span class="en">Report coordinates, HPWL, and density together. A score without its constraints is not a complete result.</span><span class="zh">坐标、HPWL 和密度必须一起报告；脱离约束的分数不是完整结果。</span></p>
+          <a class="secondary-button" href="#top"><span class="en">Back to top</span><span class="zh">返回顶部</span><span aria-hidden="true">↑</span></a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="shell footer-inner">
+        <p><span class="en">Placement for EDA · Quadratic placement lesson</span><span class="zh">EDA 布局 · 二次布局课程</span></p>
+        <a href="https://yongfu-li.github.io/eda-learning/courses/learn_placement/labs/quadratic-place/index.html">
+          <span class="en">Original course material ↗</span><span class="zh">原始课程资料 ↗</span>
+        </a>
+      </div>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>

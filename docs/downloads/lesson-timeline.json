@@ -1,0 +1,360 @@
+{
+  "title": "Quadratic Placement: Fixed Pads and Neighbor Averaging",
+  "duration": 307.72,
+  "fps": 30,
+  "scenes": [
+    {
+      "id": "01",
+      "title": "Fixed seats, movable friends",
+      "narration": "Here's a simple version of a placement problem. Six friends sit around a table. Two seats are bolted down. The other four can move, but each person wants to stay close to their friends. Move them too far apart and the connections become long. Move them without care and you may collide with a fixed seat. Chip placement has the same shape.",
+      "audioFile": "voice/full-en-v1/scene-01.mp3",
+      "start": 0.5,
+      "audioDuration": 21.0,
+      "end": 22.0
+    },
+    {
+      "id": "02",
+      "title": "From people to cells",
+      "narration": "Replace each person with a standard cell, and each friendship with a net that must connect several pins. The fixed seats become pads: preplaced terminals that cannot move. In our example, A and D are the pads. B, C, E, and F are free cells. The layout must choose their coordinates while keeping A and D exactly where they are.",
+      "audioFile": "voice/full-en-v1/scene-02.mp3",
+      "start": 22.0,
+      "audioDuration": 22.18,
+      "end": 44.68
+    },
+    {
+      "id": "03",
+      "title": "HPWL: bounding rectangle",
+      "narration": "Before moving anything, we need a cost function. The half-perimeter wirelength, or HPWL, wraps every net in its smallest axis-aligned rectangle. Add the rectangle's width and height. For one group spanning eight units horizontally and eight vertically, HPWL is sixteen. Sum that over all nets and you get the total wiring cost.",
+      "audioFile": "voice/full-en-v1/scene-03.mp3",
+      "start": 44.68,
+      "audioDuration": 22.9,
+      "end": 68.08
+    },
+    {
+      "id": "04",
+      "title": "Why the starter is 52",
+      "narration": "Our starter layout has six nets. Four two-pin nets each cost eight. The four-pin net costs sixteen. And the E F pair costs four. Add them up: eight, sixteen, twenty-four, thirty-two, forty-eight, and fifty-two. That is where the starter total of fifty-two comes from. It is not a black-box score; each unit comes from a bounding box.",
+      "audioFile": "voice/full-en-v1/scene-04.mp3",
+      "start": 68.08,
+      "audioDuration": 23.5,
+      "end": 92.08
+    },
+    {
+      "id": "05",
+      "title": "Why quadratic?",
+      "narration": "Why is this called quadratic placement? Imagine every connection as a spring. A spring's stored energy grows with the square of its length. If we sum these squared lengths, the objective becomes smooth, and its derivative is linear. That is the structural reason quadratic methods are attractive: we can solve them with linear algebra, subject to fixed pad coordinates.",
+      "audioFile": "voice/full-en-v1/scene-05.mp3",
+      "start": 92.08,
+      "audioDuration": 22.78,
+      "end": 115.36
+    },
+    {
+      "id": "06",
+      "title": "Damped neighbor averaging",
+      "narration": "The course drill uses a simpler teaching version called quadratic-lite. For each free cell, find the average position of its neighbors. Then move only part of the way toward that average. Here the blend factor is zero point five five. The new position is fifty-five percent of the neighbor average, plus forty-five percent of the old position. This damping prevents a sudden collapse and keeps the iteration stable.",
+      "audioFile": "voice/full-en-v1/scene-06.mp3",
+      "start": 115.36,
+      "audioDuration": 24.46,
+      "end": 140.32
+    },
+    {
+      "id": "07",
+      "title": "Six controlled iterations",
+      "narration": "Run that update for six passes. The pads never update. Free cells move one after another, using the most recent positions available. This is a Gauss Seidel style sweep. At first, E and F are far apart, so their spring pulls them together. B and C also move toward the center, but A and D anchor opposite corners, so the entire layout cannot shrink into one point.",
+      "audioFile": "voice/full-en-v1/scene-07.mp3",
+      "start": 140.32,
+      "audioDuration": 24.46,
+      "end": 165.28
+    },
+    {
+      "id": "08",
+      "title": "Why 52 becomes 48",
+      "narration": "After six passes, the total HPWL is about forty-eight. E and F have almost merged, saving roughly four units. The other nets barely improve, because their bounding boxes still span from the fixed pad at zero zero to the pad at eight eight. The result is modest, but it is not a failure: the constraints explain the outcome. This is why we must report coordinates and constraints together with the score.",
+      "audioFile": "voice/full-en-v1/scene-08.mp3",
+      "start": 165.28,
+      "audioDuration": 24.77,
+      "end": 190.55
+    },
+    {
+      "id": "09",
+      "title": "Fixed pads change the comparison",
+      "narration": "You may see a force-directed result of about eighteen point seven and wonder why quadratic-lite stops near forty-eight. Those runs do not share the same constraint story. Once A and D are fixed at opposite corners, most nets must keep a large span. To compare algorithms fairly, use the same instance, the same fixed pads, the same net model, and the same metric.",
+      "audioFile": "voice/full-en-v1/scene-09.mp3",
+      "start": 190.55,
+      "audioDuration": 23.38,
+      "end": 214.43
+    },
+    {
+      "id": "10",
+      "title": "Low HPWL is not enough",
+      "narration": "Wirelength is only one half of placement quality. A layout can shrink HPWL by piling cells into one small region, creating overlap or severe density overflow. Production placement adds spreading, density penalties, legalization, and often timing-driven weights. A low HPWL score is not a sign-off. It is one signal that must be checked against legality and density.",
+      "audioFile": "voice/full-en-v1/scene-10.mp3",
+      "start": 214.43,
+      "audioDuration": 25.32,
+      "end": 240.25
+    },
+    {
+      "id": "11",
+      "title": "Algorithm and checklist",
+      "narration": "The takeaway algorithm is short: keep the pads fixed, compute each free cell's neighbor average, apply the damped blend, repeat, and report the final coordinates, HPWL, and density. If your numbers differ, check the fixed cells, the blend factor, the net model, and the iteration order before changing the algorithm. That is the complete experiment behind this lesson.",
+      "audioFile": "voice/full-en-v1/scene-11.mp3",
+      "start": 240.25,
+      "audioDuration": 22.63,
+      "end": 263.38
+    },
+    {
+      "id": "12",
+      "title": "Browser lab walkthrough",
+      "narration": "Now open the browser lab. Reset to the starter and verify that the total HPWL is fifty-two. Apply quadratic, then check three things together: the total is about forty-eight, A is still at zero zero, and D is still at eight eight. The challenge board is useful only when you can explain why each check becomes true.",
+      "audioFile": "voice/full-en-v1/scene-12.mp3",
+      "start": 263.38,
+      "audioDuration": 19.9,
+      "end": 283.78
+    },
+    {
+      "id": "13",
+      "title": "Five-question self-check",
+      "narration": "Finish with a five part self check. Can you name the fixed pads and free cells? Compute one net's HPWL? Explain why fifty-two becomes forty-eight? Explain why eighteen point seven is not a direct comparison? And name one placement risk that HPWL misses? If you can answer all five, you understand the experiment, not just the animation.",
+      "audioFile": "voice/full-en-v1/scene-13.mp3",
+      "start": 283.78,
+      "audioDuration": 22.44,
+      "end": 307.72
+    }
+  ],
+  "cues": [
+    {
+      "en": "Six friends sit around a table. Two seats are bolted down.",
+      "zh": "六个人围坐桌旁，其中两个座位被固定。",
+      "start": 0.62,
+      "end": 9.159
+    },
+    {
+      "en": "The other four want to stay close to their friends.",
+      "zh": "另外四人希望靠近自己的朋友。",
+      "start": 9.159,
+      "end": 16.922
+    },
+    {
+      "en": "Chip placement has the same shape.",
+      "zh": "芯片布局面对的是同一类问题。",
+      "start": 16.922,
+      "end": 21.58
+    },
+    {
+      "en": "People become cells. Friendships become nets.",
+      "zh": "人对应单元，朋友关系对应网络。",
+      "start": 22.12,
+      "end": 27.434
+    },
+    {
+      "en": "Fixed seats become pads that cannot move.",
+      "zh": "固定座位对应不能移动的焊盘。",
+      "start": 27.434,
+      "end": 33.633
+    },
+    {
+      "en": "A and D are fixed. B, C, E, and F are free.",
+      "zh": "A、D 固定，B、C、E、F 可以移动。",
+      "start": 33.633,
+      "end": 44.26
+    },
+    {
+      "en": "HPWL wraps each net in its smallest rectangle.",
+      "zh": "HPWL 用最小包围矩形包住一个网络。",
+      "start": 44.8,
+      "end": 53.113
+    },
+    {
+      "en": "Add the rectangle's width and height.",
+      "zh": "把矩形的宽和高相加。",
+      "start": 53.113,
+      "end": 59.347
+    },
+    {
+      "en": "Eight plus eight gives sixteen for this net.",
+      "zh": "这个网络是 8 加 8，等于 16。",
+      "start": 59.347,
+      "end": 67.66
+    },
+    {
+      "en": "The starter has six nets with different bounding boxes.",
+      "zh": "初始布局共有六个网络，包围盒各不相同。",
+      "start": 68.2,
+      "end": 75.741
+    },
+    {
+      "en": "Four nets cost 8, one costs 16, and E–F costs 4.",
+      "zh": "四个网络各为 8，一个是 16，E–F 为 4。",
+      "start": 75.741,
+      "end": 84.957
+    },
+    {
+      "en": "The total is 52, with every unit traceable.",
+      "zh": "总成本为 52，每个数值都有来源。",
+      "start": 84.957,
+      "end": 91.66
+    },
+    {
+      "en": "Treat every connection as a spring.",
+      "zh": "把每条连接想象成一根弹簧。",
+      "start": 92.2,
+      "end": 98.697
+    },
+    {
+      "en": "Squared length creates a smooth quadratic objective.",
+      "zh": "长度的平方形成平滑的二次目标。",
+      "start": 98.697,
+      "end": 106.277
+    },
+    {
+      "en": "Its derivative is linear, which enables efficient solving.",
+      "zh": "目标函数的导数是线性的，便于求解。",
+      "start": 106.277,
+      "end": 114.94
+    },
+    {
+      "en": "First, find the average position of a cell's neighbors.",
+      "zh": "先求一个单元所有邻居的平均位置。",
+      "start": 115.48,
+      "end": 123.62
+    },
+    {
+      "en": "Move 55% toward the average and keep 45% of the old position.",
+      "zh": "向平均值移动 55%，保留原位置的 45%。",
+      "start": 123.62,
+      "end": 134.473
+    },
+    {
+      "en": "This damping prevents a sudden collapse.",
+      "zh": "这种阻尼可以避免布局突然坍缩。",
+      "start": 134.473,
+      "end": 139.9
+    },
+    {
+      "en": "Update free cells one by one for six passes.",
+      "zh": "对自由单元逐个更新，共进行六轮。",
+      "start": 140.44,
+      "end": 148.58
+    },
+    {
+      "en": "E and F pull together. B and C move inward.",
+      "zh": "E、F 相互靠近，B、C 向内部移动。",
+      "start": 148.58,
+      "end": 157.624
+    },
+    {
+      "en": "A and D stay fixed at opposite corners.",
+      "zh": "A、D 始终固定在相对的角落。",
+      "start": 157.624,
+      "end": 164.86
+    },
+    {
+      "en": "The total drops from 52 to about 48.",
+      "zh": "总 HPWL 从 52 降到约 48。",
+      "start": 165.4,
+      "end": 173.643
+    },
+    {
+      "en": "E–F saves about 4. The other nets stay wide.",
+      "zh": "E–F 约节省 4，其余网络仍保持较大跨度。",
+      "start": 173.643,
+      "end": 182.917
+    },
+    {
+      "en": "The fixed pads explain the modest improvement.",
+      "zh": "固定焊盘解释了为什么改善幅度有限。",
+      "start": 182.917,
+      "end": 190.13
+    },
+    {
+      "en": "An unconstrained force result may be around 18.7.",
+      "zh": "无约束力导向结果可能约为 18.7。",
+      "start": 190.67,
+      "end": 197.586
+    },
+    {
+      "en": "That is not an apples-to-apples comparison with fixed pads.",
+      "zh": "这与固定焊盘下的结果并不等价。",
+      "start": 197.586,
+      "end": 205.366
+    },
+    {
+      "en": "Compare with the same instance, pads, net model, and metric.",
+      "zh": "比较时，实例、焊盘、网络模型和指标必须一致。",
+      "start": 205.366,
+      "end": 214.01
+    },
+    {
+      "en": "A low wirelength can still create overlap and density overflow.",
+      "zh": "线长很低时，单元仍可能重叠或过密。",
+      "start": 214.55,
+      "end": 224.273
+    },
+    {
+      "en": "Production placement adds spreading, legalization, and timing weights.",
+      "zh": "实际布局还会加入展开、合法化和时序权重。",
+      "start": 224.273,
+      "end": 232.052
+    },
+    {
+      "en": "HPWL is one quality signal, not final sign-off.",
+      "zh": "HPWL 只是质量信号，不代表最终验收。",
+      "start": 232.052,
+      "end": 239.83
+    },
+    {
+      "en": "Keep pads fixed. Average neighbors. Blend. Repeat.",
+      "zh": "固定焊盘，求邻居平均，阻尼混合，重复迭代。",
+      "start": 240.37,
+      "end": 247.9
+    },
+    {
+      "en": "Report coordinates, HPWL, and density.",
+      "zh": "最终报告坐标、HPWL 和密度。",
+      "start": 247.9,
+      "end": 253.279
+    },
+    {
+      "en": "Check constraints and implementation details before changing the algorithm.",
+      "zh": "先核对约束与实现细节，再考虑修改算法。",
+      "start": 253.279,
+      "end": 262.96
+    },
+    {
+      "en": "Reset the starter and verify the total HPWL is 52.",
+      "zh": "重置到初始布局，确认总 HPWL 为 52。",
+      "start": 263.5,
+      "end": 270.12
+    },
+    {
+      "en": "Apply quadratic and verify the total is about 48.",
+      "zh": "运行 quadratic，确认总 HPWL 约为 48。",
+      "start": 270.12,
+      "end": 276.078
+    },
+    {
+      "en": "Check that A and D remain fixed, then explain the result.",
+      "zh": "确认 A、D 保持固定，并解释结果。",
+      "start": 276.078,
+      "end": 283.36
+    },
+    {
+      "en": "Can you name the fixed pads and free cells?",
+      "zh": "你能说出固定焊盘和自由单元吗？",
+      "start": 283.9,
+      "end": 290.403
+    },
+    {
+      "en": "Can you compute HPWL and explain the drop from 52 to 48?",
+      "zh": "你能计算 HPWL，并解释 52 到 48 的原因吗？",
+      "start": 290.403,
+      "end": 299.074
+    },
+    {
+      "en": "Can you explain the comparison caveat and one density risk?",
+      "zh": "你能解释比较前提和一种密度风险吗？",
+      "start": 299.074,
+      "end": 306.3
+    }
+  ]
+}

@@ -1,0 +1,194 @@
+1
+00:00:00,620 --> 00:00:09,159
+Six friends sit around a table. Two seats are bolted down.
+六个人围坐桌旁，其中两个座位被固定。
+
+2
+00:00:09,159 --> 00:00:16,922
+The other four want to stay close to their friends.
+另外四人希望靠近自己的朋友。
+
+3
+00:00:16,922 --> 00:00:21,580
+Chip placement has the same shape.
+芯片布局面对的是同一类问题。
+
+4
+00:00:22,120 --> 00:00:27,434
+People become cells. Friendships become nets.
+人对应单元，朋友关系对应网络。
+
+5
+00:00:27,434 --> 00:00:33,633
+Fixed seats become pads that cannot move.
+固定座位对应不能移动的焊盘。
+
+6
+00:00:33,633 --> 00:00:44,260
+A and D are fixed. B, C, E, and F are free.
+A、D 固定，B、C、E、F 可以移动。
+
+7
+00:00:44,800 --> 00:00:53,113
+HPWL wraps each net in its smallest rectangle.
+HPWL 用最小包围矩形包住一个网络。
+
+8
+00:00:53,113 --> 00:00:59,347
+Add the rectangle's width and height.
+把矩形的宽和高相加。
+
+9
+00:00:59,347 --> 00:01:07,660
+Eight plus eight gives sixteen for this net.
+这个网络是 8 加 8，等于 16。
+
+10
+00:01:08,200 --> 00:01:15,741
+The starter has six nets with different bounding boxes.
+初始布局共有六个网络，包围盒各不相同。
+
+11
+00:01:15,741 --> 00:01:24,957
+Four nets cost 8, one costs 16, and E–F costs 4.
+四个网络各为 8，一个是 16，E–F 为 4。
+
+12
+00:01:24,957 --> 00:01:31,660
+The total is 52, with every unit traceable.
+总成本为 52，每个数值都有来源。
+
+13
+00:01:32,200 --> 00:01:38,697
+Treat every connection as a spring.
+把每条连接想象成一根弹簧。
+
+14
+00:01:38,697 --> 00:01:46,277
+Squared length creates a smooth quadratic objective.
+长度的平方形成平滑的二次目标。
+
+15
+00:01:46,277 --> 00:01:54,940
+Its derivative is linear, which enables efficient solving.
+目标函数的导数是线性的，便于求解。
+
+16
+00:01:55,480 --> 00:02:03,620
+First, find the average position of a cell's neighbors.
+先求一个单元所有邻居的平均位置。
+
+17
+00:02:03,620 --> 00:02:14,473
+Move 55% toward the average and keep 45% of the old position.
+向平均值移动 55%，保留原位置的 45%。
+
+18
+00:02:14,473 --> 00:02:19,900
+This damping prevents a sudden collapse.
+这种阻尼可以避免布局突然坍缩。
+
+19
+00:02:20,440 --> 00:02:28,580
+Update free cells one by one for six passes.
+对自由单元逐个更新，共进行六轮。
+
+20
+00:02:28,580 --> 00:02:37,624
+E and F pull together. B and C move inward.
+E、F 相互靠近，B、C 向内部移动。
+
+21
+00:02:37,624 --> 00:02:44,860
+A and D stay fixed at opposite corners.
+A、D 始终固定在相对的角落。
+
+22
+00:02:45,400 --> 00:02:53,643
+The total drops from 52 to about 48.
+总 HPWL 从 52 降到约 48。
+
+23
+00:02:53,643 --> 00:03:02,917
+E–F saves about 4. The other nets stay wide.
+E–F 约节省 4，其余网络仍保持较大跨度。
+
+24
+00:03:02,917 --> 00:03:10,130
+The fixed pads explain the modest improvement.
+固定焊盘解释了为什么改善幅度有限。
+
+25
+00:03:10,670 --> 00:03:17,586
+An unconstrained force result may be around 18.7.
+无约束力导向结果可能约为 18.7。
+
+26
+00:03:17,586 --> 00:03:25,366
+That is not an apples-to-apples comparison with fixed pads.
+这与固定焊盘下的结果并不等价。
+
+27
+00:03:25,366 --> 00:03:34,010
+Compare with the same instance, pads, net model, and metric.
+比较时，实例、焊盘、网络模型和指标必须一致。
+
+28
+00:03:34,550 --> 00:03:44,273
+A low wirelength can still create overlap and density overflow.
+线长很低时，单元仍可能重叠或过密。
+
+29
+00:03:44,273 --> 00:03:52,052
+Production placement adds spreading, legalization, and timing weights.
+实际布局还会加入展开、合法化和时序权重。
+
+30
+00:03:52,052 --> 00:03:59,830
+HPWL is one quality signal, not final sign-off.
+HPWL 只是质量信号，不代表最终验收。
+
+31
+00:04:00,370 --> 00:04:07,900
+Keep pads fixed. Average neighbors. Blend. Repeat.
+固定焊盘，求邻居平均，阻尼混合，重复迭代。
+
+32
+00:04:07,900 --> 00:04:13,279
+Report coordinates, HPWL, and density.
+最终报告坐标、HPWL 和密度。
+
+33
+00:04:13,279 --> 00:04:22,960
+Check constraints and implementation details before changing the algorithm.
+先核对约束与实现细节，再考虑修改算法。
+
+34
+00:04:23,500 --> 00:04:30,120
+Reset the starter and verify the total HPWL is 52.
+重置到初始布局，确认总 HPWL 为 52。
+
+35
+00:04:30,120 --> 00:04:36,078
+Apply quadratic and verify the total is about 48.
+运行 quadratic，确认总 HPWL 约为 48。
+
+36
+00:04:36,078 --> 00:04:43,360
+Check that A and D remain fixed, then explain the result.
+确认 A、D 保持固定，并解释结果。
+
+37
+00:04:43,900 --> 00:04:50,403
+Can you name the fixed pads and free cells?
+你能说出固定焊盘和自由单元吗？
+
+38
+00:04:50,403 --> 00:04:59,074
+Can you compute HPWL and explain the drop from 52 to 48?
+你能计算 HPWL，并解释 52 到 48 的原因吗？
+
+39
+00:04:59,074 --> 00:05:06,300
+Can you explain the comparison caveat and one density risk?
+你能解释比较前提和一种密度风险吗？
